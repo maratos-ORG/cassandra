@@ -12,8 +12,11 @@ services:
     networks:
       test:
         ipv4_address: 172.28.0.2
+
   cassandra2:
     image: cassandra
+    depends_on:
+      - cassandra
     ports:
       - 9043:9042
     volumes:
@@ -24,8 +27,11 @@ services:
     networks:
       test:
         ipv4_address: 172.28.0.3
+        
   cassandra3:
     image: cassandra
+    depends_on:
+      - cassandra2    
     ports:
       - 9044:9042
     volumes:
