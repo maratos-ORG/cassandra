@@ -51,7 +51,9 @@ jobs:
 
     - name: Wait for 30 seconds
       run: sleep 10
-    
+    - name: Wait for 30 seconds
+      run: docker exec cassandra1 cqlsh --debug localhost 9042 --execute="use somekeyspace;"      
+
     - name: Docker info
       run: docker ps
 
