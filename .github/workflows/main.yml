@@ -10,7 +10,7 @@ on:
 
 jobs:
   prepare:
-    timeout-minutes: 10
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -55,7 +55,7 @@ jobs:
         until OUTPUT=$($COMMAND 2>&1) || [ $COUNT -eq $MAX_ATTEMPTS ]
         do
           echo "$OUTPUT"
-          sleep 30
+          sleep 45
           COUNT=$((COUNT+1))
           echo "Attempt: $COUNT/$MAX_ATTEMPTS"
         done
@@ -68,20 +68,20 @@ jobs:
     - name: Docker info
       run: docker ps
 
-    - name: Wait for 30 seconds
-      run: sleep 60
+    # - name: Wait for 30 seconds
+    #   run: sleep 60
     
     - name: Cassandra cluster status info
       run: docker exec cassandra1 nodetool status
 
-    - name: DOCKER LOGS1
-      run: docker logs cassandra1 
+    # - name: DOCKER LOGS1
+    #   run: docker logs cassandra1 
  
-    - name: DOCKER LOGS2
-      run: docker logs cassandra2      
+    # - name: DOCKER LOGS2
+    #   run: docker logs cassandra2      
 
-    - name: DOCKER LOGS3
-      run: docker logs cassandra3
+    # - name: DOCKER LOGS3
+    #   run: docker logs cassandra3
 
     - name: Run Python script
       run: pipenv run python scripts/generate_data.py
