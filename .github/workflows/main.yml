@@ -40,6 +40,13 @@ jobs:
     - name: Start containers
       run: docker-compose -f "docker-compose.yaml" up -d --build && sleep 5
 
+    - name: Wait for 10 seconds
+      run: sleep 10
+
+    
+    - name: Cassandra cluster status info2
+      run: docker exec cassandra1 nodetool status
+
     - name: Wait for Cassandra to become ready
       run: |
         echo "Waiting for Cassandra to become ready..."
@@ -59,15 +66,13 @@ jobs:
         fi
         echo "Cassandra is ready!"
 
-    - name: Wait for 10 seconds
-      run: sleep 10
 
     - name: Docker info
       run: docker ps
     # - name: Docker info2
     #   run: docker logs cassandra1
     
-    - name: Docker info
+    - name: Cassandra cluster status info2
       run: docker exec cassandra1 nodetool status
         
     - name: Run Python script
