@@ -1,7 +1,7 @@
 from cassandra.cluster import Cluster
 
 # Connect to the Cassandra cluster
-cluster = Cluster(['cassandra3'], port=9044)
+cluster = Cluster(['127.0.0.1'], port=9044)
 session = cluster.connect()
 
 # Create a keyspace
