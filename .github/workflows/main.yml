@@ -43,7 +43,7 @@ jobs:
     - name: Wait for Cassandra
       run: |
         for i in {1..30}; do
-          nc -z 127.0.0.1 9044 && echo Success && exit 0
+          nc -z 127.0.0.1 9042 && echo Success && exit 0
           echo -n .
           sleep 1
         done
