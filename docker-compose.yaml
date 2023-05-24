@@ -25,7 +25,7 @@ services:
     container_name: cassandra2
     image: cassandra
     depends_on:
-      - cassandra
+      - cassandra1
     ports:
       - 9043:9042
     volumes:
