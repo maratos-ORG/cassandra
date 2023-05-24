@@ -43,15 +43,18 @@ jobs:
     - name: Wait for Cassandra
       run: |
         for i in {1..30}; do
-          nc -z 127.0.0.1 9042 && echo Success && exit 0
+          nc -z 172.28.0.2 9042 && echo Success && exit 0
           echo -n .
           sleep 1
         done
         echo Failed waiting for Cassandra && exit 1
 
     - name: Wait for 30 seconds
-      run: sleep 30
+      run: sleep 10
 
+    - name: Docker info
+      run: ping -c 3 172.28.0.2 
+      
     - name: Docker info
       run: docker ps
 
