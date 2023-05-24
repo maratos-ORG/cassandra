@@ -67,7 +67,10 @@ jobs:
     
     - name: Cassandra cluster status info
       run: docker exec cassandra1 nodetool status
-        
+
+    - name: DOCKER LOGS
+      run: docker logs cassandra2 
+      
     - name: Run Python script
       run: pipenv run python scripts/generate_data.py
 
