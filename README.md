@@ -9,21 +9,45 @@
 `docker run -it --network docker_test --rm cassandra cqlsh cassandra` 
 
 
-`docker exec -it cassandra-cassandra-1 nodetool status`  
+`docker exec -it cassandra1 nodetool status`  
 
-`docker exec -it cassandra-cassandra3-1 nodetool flush`
-`docker exec -it cassandra-cassandra3-1 nodetool compact booster_new tb1`
-`docker exec -it cassandra-cassandra-1 cqlsh`  
+`docker exec -it cassandra1 nodetool flush`
+`docker exec -it cassandra1 nodetool compact boost_1 tb1`
+`docker exec -it cassandra1 cqlsh`  
 `nodetool --host 172.28.0.2 info`
-`docker exec -it cassandra-cassandra-1 nodetool getendpoints booster_new tb1 1` 
+`docker exec -it cassandra1 nodetool getendpoints boost_1 tb1 'New York'` 
+
+
+ DATA Distribution
+ `docker exec -it cassandra2 nodetool cfstats boost_1.tb1`
+ `docker exec -it cassandra1 nodetool tablestats boost_1.tb1`
+ 
+LOGS -> https://cassandra.apache.org/doc/latest/cassandra/operating/fqllogging.html
+1. docker exec -it cassandra2 nodetool enablefullquerylog --path /tmp/cassandrafullquerylog
+2. docker exec -it cassandra2 cqlsh    
+    CREATE KEYSPACE querylogkeyspace1 WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+    USE querylogkeyspace1;
+    CREATE TABLE t (id int,k int,v text,PRIMARY KEY (id));
+    INSERT INTO t (id, k, v) VALUES (0, 0, 'val0');
+    INSERT INTO t (id, k, v) VALUES (0, 1, 'val1');
+3. docker exec -it cassandra2 /opt/cassandra/tools/bin/fqltool dump /tmp/cassandrafullquerylog  
+4. docker exec -it cassandra2 nodetool disablefullquerylog
+5. docker exec -it cassandra2 cqlsh 
+     DROP KEYSPACE querylogkeyspace1;
+6. docker exec -it cassandra2 /opt/cassandra/tools/bin/fqltool replay --keyspace querylogkeyspace --results /cassandra/fql/logs/results/replay --store-queries /cassandra/fql/logs/queries/replay --target 172.28.0.3 /tmp/cassandrafullquerylog
+
+Audit Logging -> https://cassandra.apache.org/doc/latest/cassandra/operating/auditlogging.html
+docker exec -it cassandra2 nodetool enableauditlog 
+docker exec -it cassandra2 cqlsh -- make some queries
+docker exec -it cassandra2 nodetool disableauditlog
+docker exec -it cassandra2 auditlogviewer /cassandra/audit/logs/hourly
 
 
 
-CREATE KEYSPACE booster_new2 WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
-DROP KEYSPACE booster_3;
 
-create table tb3 (Id int primary key, name text,  city text ); 
-
+CREATE KEYSPACE boost_3 WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
+DROP KEYSPACE boost_3;
+create table tb1 (Id int primary key, name text,  city text ); 
 SELECT * FROM system_schema.keyspaces;
 describe keyspace booster_2
 
