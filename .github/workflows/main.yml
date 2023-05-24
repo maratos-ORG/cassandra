@@ -22,7 +22,7 @@ jobs:
         sudo apt-get install -y netcat
 
     - name: Create directories for Cassandras clusters
-      run: mkdir -p /docker/data/cassandra1 /docker/data/cassandra2 /docker/data/cassandra3
+      run: mkdir -p docker/data/cassandra1 docker/data/cassandra2 docker/data/cassandra3
 
     - name: Set up Python
       uses: actions/setup-python@v3
