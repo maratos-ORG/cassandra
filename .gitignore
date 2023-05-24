@@ -1,1 +1,3 @@
-docker/data
+docker/data/cassandra1/*
+docker/data/cassandra2/*
+docker/data/cassandra3/*
