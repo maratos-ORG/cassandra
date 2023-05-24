@@ -11,7 +11,7 @@ services:
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_LISTEN_ADDRESS=cassandra
-      - CASSANDRA_BROADCAST_ADDRESS=cassandra3     
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra     
     networks:
       test:
         ipv4_address: 172.28.250.2
