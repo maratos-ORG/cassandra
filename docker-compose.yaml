@@ -3,7 +3,7 @@ version: '3.9'
 services:
   cassandra1:
     container_name: cassandra1
-    image: cassandra
+    image: cassandra  
     ports:
       - 9042:9042
     volumes:
@@ -24,10 +24,10 @@ services:
 
   cassandra2:
     container_name: cassandra2
-    image: cassandra
+    image: cassandra  
     depends_on:
       - cassandra1
-    command: /bin/bash -c "sleep 50; /docker-entrypoint.sh cassandra -f"      
+    command: /bin/bash -c "sleep 30; /usr/local/bin/docker-entrypoint.sh cassandra -f"      
     ports:
       - 9043:9042
     volumes:
@@ -49,10 +49,10 @@ services:
 
   cassandra3:
     container_name: cassandra3
-    image: cassandra
+    image: cassandra   
     depends_on:
       - cassandra2    
-    command: /bin/bash -c "sleep 100; /docker-entrypoint.sh cassandra -f"      
+    command: /bin/bash -c "sleep 150; /usr/local/bin/docker-entrypoint.sh cassandra -f"      
     ports:
       - 9044:9042
     volumes:
