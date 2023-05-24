@@ -7,8 +7,10 @@ services:
     ports:
       - 9042:9042
     volumes:
-      - ~/cassandra/docker/data/cassandra1:/var/lib/cassandra
+      - ./docker/data/cassandra1:/var/lib/cassandra
+      - ./docker/conf/cassandra1.yaml:/etc/cassandra/cassandra.yaml
     environment:
+      - CASSANDRA_SEEDS=cassandra1
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_LISTEN_ADDRESS=cassandra1
       - CASSANDRA_BROADCAST_ADDRESS=cassandra1  
@@ -26,10 +28,12 @@ services:
     image: cassandra
     depends_on:
       - cassandra1
+    command: /bin/bash -c "sleep 50; /docker-entrypoint.sh cassandra -f"      
     ports:
       - 9043:9042
     volumes:
-      - ~/cassandra/docker/data/cassandra2:/var/lib/cassandra
+      - ./docker/data/cassandra2:/var/lib/cassandra
+      - ./docker/conf/cassandra2.yaml:/etc/cassandra/cassandra.yaml      
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_SEEDS=cassandra1
@@ -49,10 +53,12 @@ services:
     image: cassandra
     depends_on:
       - cassandra2    
+    command: /bin/bash -c "sleep 100; /docker-entrypoint.sh cassandra -f"      
     ports:
       - 9044:9042
     volumes:
-      - ~/cassandra/docker/data/cassandra3:/var/lib/cassandra
+      - ./docker/data/cassandra3:/var/lib/cassandra
+      - ./docker/conf/cassandra3.yaml:/etc/cassandra/cassandra.yaml      
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_SEEDS=cassandra1
