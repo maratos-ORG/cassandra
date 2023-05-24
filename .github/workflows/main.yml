@@ -53,7 +53,12 @@ jobs:
       run: sleep 30
 
     - name: Docker info
-      run: docker exec cassandra1 nodetool status
+      run: docker ps
+
+    - name: Docker info2
+      run: docker logs cassandra1
+    # - name: Docker info
+    #   run: docker exec cassandra1 nodetool status
         
     - name: Run Python script
       run: pipenv run python scripts/generate_data.py
