@@ -44,11 +44,11 @@ jobs:
       run: |
         echo "Waiting for Cassandra to become ready..."
         MAX_ATTEMPTS=20
-        COMMAND='docker exec cassandra3 cqlsh --debug cassandra3 9042 --execute="DESCRIBE SCHEMA;"'
+        COMMAND='docker exec cassandra3 cqlsh --debug cassandra3 9044 --execute="DESCRIBE SCHEMA;"'
         COUNT=0
         until $COMMAND &>/dev/null || [ $COUNT -eq $MAX_ATTEMPTS ]
         do
-          sleep 10
+          sleep 15
           COUNT=$((COUNT+1))
           echo "Attempt: $COUNT/$MAX_ATTEMPTS"
         done
@@ -58,6 +58,15 @@ jobs:
         fi
         echo "Cassandra is ready!"
 
+    # - name: Wait for Cassandra
+    #   run: |
+    #     for i in {1..30}; do
+    #       nc -z 127.0.0.1 9042 && echo Success && exit 0
+    #       echo -n .
+    #       sleep 1
+    #     done
+    #     echo Failed waiting for Cassandra && exit 1
+
     # - name: Wait for 30 seconds
     #   run: sleep 120
     # - name: Wait for 30 seconds
@@ -65,11 +74,10 @@ jobs:
 
     - name: Docker info
       run: docker ps
-
     # - name: Docker info2
     #   run: docker logs cassandra1
-
-    - name: Cassandra cluster status
+    
+    - name: Docker info
       run: docker exec cassandra1 nodetool status
         
     - name: Run Python script
