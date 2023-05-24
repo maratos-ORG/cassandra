@@ -1,4 +1,5 @@
 from cassandra.cluster import Cluster
+import time
 
 # Connect to the Cassandra cluster
 cluster = Cluster(['127.0.0.1'], port=9044)
@@ -9,7 +10,7 @@ session.execute("""
 CREATE KEYSPACE IF NOT EXISTS boost_3 
 WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
 """)
-
+time.sleep(2)
 # Use the keyspace
 session.set_keyspace('boost_3')
 
