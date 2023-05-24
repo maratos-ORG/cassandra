@@ -10,7 +10,7 @@ on:
 
 jobs:
   prepare:
-    timeout-minutes: 5
+    timeout-minutes: 7
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -58,19 +58,8 @@ jobs:
         fi
         echo "Cassandra is ready!"
 
-    # - name: Wait for Cassandra
-    #   run: |
-    #     for i in {1..30}; do
-    #       nc -z 127.0.0.1 9042 && echo Success && exit 0
-    #       echo -n .
-    #       sleep 1
-    #     done
-    #     echo Failed waiting for Cassandra && exit 1
-
-    # - name: Wait for 30 seconds
-    #   run: sleep 120
-    # - name: Wait for 30 seconds
-    #   run: docker exec cassandra1 cqlsh --debug cassandra1 9042 --execute="use somekeyspace;"      
+    - name: Wait for 10 seconds
+      run: sleep 10
 
     - name: Docker info
       run: docker ps
