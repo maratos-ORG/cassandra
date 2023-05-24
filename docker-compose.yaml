@@ -15,6 +15,11 @@ services:
     networks:
       test:
         ipv4_address: 172.28.0.2
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE CLUSTER'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   cassandra2:
     container_name: cassandra2
@@ -33,7 +38,12 @@ services:
     networks:
       test:
         ipv4_address: 172.28.0.3
-        
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE CLUSTER'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   cassandra3:
     container_name: cassandra3
     image: cassandra
@@ -51,6 +61,11 @@ services:
     networks:
       test:
         ipv4_address: 172.28.0.4
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE CLUSTER'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3        
 
 networks:
     test:

@@ -58,15 +58,6 @@ jobs:
         fi
         echo "Cassandra is ready!"
 
-    # - name: Wait for Cassandra
-    #   run: |
-    #     for i in {1..30}; do
-    #       nc -z 127.0.0.1 9042 && echo Success && exit 0
-    #       echo -n .
-    #       sleep 1
-    #     done
-    #     echo Failed waiting for Cassandra && exit 1
-
     # - name: Wait for 30 seconds
     #   run: sleep 120
     # - name: Wait for 30 seconds
@@ -75,10 +66,11 @@ jobs:
     - name: Docker info
       run: docker ps
 
-    - name: Docker info2
-      run: docker logs cassandra1
-    # - name: Docker info
-    #   run: docker exec cassandra1 nodetool status
+    # - name: Docker info2
+    #   run: docker logs cassandra1
+
+    - name: Docker info
+      run: docker exec cassandra1 nodetool status
         
     - name: Run Python script
       run: pipenv run python scripts/generate_data.py
