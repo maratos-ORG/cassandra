@@ -24,6 +24,12 @@ jobs:
     - name: Create directories for Cassandras clusters
       run: mkdir -p docker/data/cassandra1 docker/data/cassandra2 docker/data/cassandra3
 
+    - name: ls -l
+      run: ls -l
+
+    - name: pwd
+      run: pwd      
+
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
