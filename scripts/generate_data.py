@@ -2,7 +2,7 @@ from cassandra.cluster import Cluster
 import time
 
 # Connect to the Cassandra cluster
-cluster = Cluster(['cassandra1'], port=9042)
+cluster = Cluster(['cassandra'], port=9042)
 session = cluster.connect()
 
 # Create a keyspace

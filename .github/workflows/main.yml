@@ -62,8 +62,8 @@ jobs:
     - name: Docker info
       run: docker ps
 
-    - name: Wait for 10 seconds
-      run: sleep 60
+    - name: Wait for 30 seconds
+      run: sleep 30
     
     - name: Cassandra cluster status info
       run: docker exec cassandra1 nodetool status
