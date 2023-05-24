@@ -14,7 +14,7 @@ time.sleep(2)
 # Use the keyspace
 session.set_keyspace('boost_3')
 
-# Create a table
+# Create a table 
 session.execute("""
 CREATE TABLE IF NOT EXISTS tb1 (
 Id int PRIMARY KEY,
