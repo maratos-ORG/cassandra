@@ -40,26 +40,23 @@ jobs:
     - name: Start containers
       run: docker-compose -f "docker-compose.yaml" up -d --build
 
-    - name: Check Cassandra readiness
+    - name: Wait for Cassandra to become ready
       run: |
-        echo "Checking Cassandra readiness..."
-        MAX_TRIES=20
-        COUNTER=0
-    
-        # This command will try to execute a simple CQL command. If Cassandra is not ready, it will fail.
-        # We will try MAX_TRIES times, waiting for 10 seconds between each try.
-        until docker exec cassandra1 cqlsh --debug cassandra1 9042 --execute="SELECT now() FROM system.local;" || [ $COUNTER -eq $MAX_TRIES ]; do
-          sleep 10
-          echo "Waiting for Cassandra to be ready... Try: $COUNTER"
-          ((COUNTER++))
+        echo "Waiting for Cassandra to become ready..."
+        MAX_ATTEMPTS=20
+        COMMAND='docker exec cassandra1 cqlsh -e "DESCRIBE SCHEMA;"'
+        COUNT=0
+        until $COMMAND &>/dev/null || [ $COUNT -eq $MAX_ATTEMPTS ]
+        do
+          sleep 15
+          COUNT=$((COUNT+1))
+          echo "Attempt: $COUNT/$MAX_ATTEMPTS"
         done
-    
-        if [ $COUNTER -eq $MAX_TRIES ]; then
-          echo "Cassandra was not ready after $MAX_TRIES attempts. Exiting..."
+        if [ $COUNT -eq $MAX_ATTEMPTS ]; then
+          echo "Cassandra did not become ready within the expected time. Exiting..."
           exit 1
         fi
-    
-        echo "Cassandra is ready!"      
+        echo "Cassandra is ready!"
 
     # - name: Wait for Cassandra
     #   run: |
