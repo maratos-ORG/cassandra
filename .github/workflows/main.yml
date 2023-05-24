@@ -40,19 +40,40 @@ jobs:
     - name: Start containers
       run: docker-compose -f "docker-compose.yaml" up -d --build
 
-    - name: Wait for Cassandra
-      run: |
-        for i in {1..30}; do
-          nc -z 127.0.0.1 9042 && echo Success && exit 0
-          echo -n .
-          sleep 1
-        done
-        echo Failed waiting for Cassandra && exit 1
+    - name: Check Cassandra readiness
+    run: |
+      echo "Checking Cassandra readiness..."
+      MAX_TRIES=20
+      COUNTER=0
+   
+      # This command will try to execute a simple CQL command. If Cassandra is not ready, it will fail.
+      # We will try MAX_TRIES times, waiting for 10 seconds between each try.
+      until docker exec cassandra1 cqlsh --debug cassandra1 9042 --execute="SELECT now() FROM system.local;" || [ $COUNTER -eq $MAX_TRIES ]; do
+        sleep 10
+        echo "Waiting for Cassandra to be ready... Try: $COUNTER"
+        ((COUNTER++))
+      done
+   
+      if [ $COUNTER -eq $MAX_TRIES ]; then
+        echo "Cassandra was not ready after $MAX_TRIES attempts. Exiting..."
+        exit 1
+      fi
+   
+      echo "Cassandra is ready!"      
 
-    - name: Wait for 30 seconds
-      run: sleep 120
-    - name: Wait for 30 seconds
-      run: docker exec cassandra1 cqlsh --debug cassandra1 9042 --execute="use somekeyspace;"      
+    # - name: Wait for Cassandra
+    #   run: |
+    #     for i in {1..30}; do
+    #       nc -z 127.0.0.1 9042 && echo Success && exit 0
+    #       echo -n .
+    #       sleep 1
+    #     done
+    #     echo Failed waiting for Cassandra && exit 1
+
+    # - name: Wait for 30 seconds
+    #   run: sleep 120
+    # - name: Wait for 30 seconds
+    #   run: docker exec cassandra1 cqlsh --debug cassandra1 9042 --execute="use somekeyspace;"      
 
     - name: Docker info
       run: docker ps
