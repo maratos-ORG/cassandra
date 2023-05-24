@@ -8,9 +8,8 @@ services:
       - 9042:9042
     volumes:
       - ./docker/data/cassandra1:/var/lib/cassandra
-      - ./docker/conf/cassandra1.yaml:/etc/cassandra/cassandra.yaml
+      # - ./docker/conf/cassandra1.yaml:/etc/cassandra/cassandra.yaml
     environment:
-      - CASSANDRA_SEEDS=cassandra1
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_LISTEN_ADDRESS=cassandra1
       - CASSANDRA_BROADCAST_ADDRESS=cassandra1  
@@ -33,7 +32,7 @@ services:
       - 9043:9042
     volumes:
       - ./docker/data/cassandra2:/var/lib/cassandra
-      - ./docker/conf/cassandra2.yaml:/etc/cassandra/cassandra.yaml      
+      # - ./docker/conf/cassandra2.yaml:/etc/cassandra/cassandra.yaml      
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_SEEDS=cassandra1
@@ -58,7 +57,7 @@ services:
       - 9044:9042
     volumes:
       - ./docker/data/cassandra3:/var/lib/cassandra
-      - ./docker/conf/cassandra3.yaml:/etc/cassandra/cassandra.yaml      
+      # - ./docker/conf/cassandra3.yaml:/etc/cassandra/cassandra.yaml      
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_SEEDS=cassandra1
