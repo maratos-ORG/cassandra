@@ -10,7 +10,7 @@ session.execute("""
 CREATE KEYSPACE IF NOT EXISTS boost_3 
 WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
 """)
-time.sleep(2)
+time.sleep(10)
 # Use the keyspace
 session.set_keyspace('boost_3')
 
@@ -21,7 +21,7 @@ Id int PRIMARY KEY,
 name text,
 city text);
 """)
-time.sleep(2)
+time.sleep(10)
 # Generate 200,000 rows of data
 for i in range(1, 1000):
     name = 'Name {}'.format(i)
