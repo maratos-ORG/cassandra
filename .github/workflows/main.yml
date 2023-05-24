@@ -49,6 +49,9 @@ jobs:
         done
         echo Failed waiting for Cassandra && exit 1
 
+    - name: Wait for 30 seconds
+      run: sleep 50
+        
     - name: Run Python script
       run: pipenv run python scripts/generate_data.py
 
