@@ -50,9 +50,9 @@ jobs:
         echo Failed waiting for Cassandra && exit 1
 
     - name: Wait for 30 seconds
-      run: sleep 10
+      run: sleep 120
     - name: Wait for 30 seconds
-      run: docker exec cassandra1 cqlsh --debug localhost 9042 --execute="use somekeyspace;"      
+      run: docker exec cassandra1 cqlsh --debug cassandra1 9042 --execute="use somekeyspace;"      
 
     - name: Docker info
       run: docker ps
