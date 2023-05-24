@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  cassandra:
+  cassandra1:
     container_name: cassandra1
     image: cassandra
     ports:
@@ -10,8 +10,8 @@ services:
       - ~/cassandra/docker/data/cassandra1:/var/lib/cassandra
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
-      - CASSANDRA_LISTEN_ADDRESS=cassandra
-      - CASSANDRA_BROADCAST_ADDRESS=cassandra     
+      - CASSANDRA_LISTEN_ADDRESS=cassandra1
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra1  
     networks:
       test:
         ipv4_address: 172.28.250.2
@@ -32,7 +32,7 @@ services:
       - ~/cassandra/docker/data/cassandra2:/var/lib/cassandra
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
-      - CASSANDRA_SEEDS=cassandra
+      - CASSANDRA_SEEDS=cassandra1
       - CASSANDRA_LISTEN_ADDRESS=cassandra2
       - CASSANDRA_BROADCAST_ADDRESS=cassandra2     
     networks:
@@ -55,7 +55,7 @@ services:
       - ~/cassandra/docker/data/cassandra3:/var/lib/cassandra
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
-      - CASSANDRA_SEEDS=cassandra
+      - CASSANDRA_SEEDS=cassandra1
       - CASSANDRA_LISTEN_ADDRESS=cassandra3
       - CASSANDRA_BROADCAST_ADDRESS=cassandra3
     networks:
