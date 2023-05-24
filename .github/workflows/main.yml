@@ -69,7 +69,7 @@ jobs:
     # - name: Docker info2
     #   run: docker logs cassandra1
 
-    - name: Docker info
+    - name: Cassandra cluster status
       run: docker exec cassandra1 nodetool status
         
     - name: Run Python script
