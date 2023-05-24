@@ -1,5 +1,4 @@
 from cassandra.cluster import Cluster
-from cassandra import ConsistencyLevel
 import time
 
 # Connect to the Cassandra cluster
@@ -12,7 +11,6 @@ CREATE KEYSPACE IF NOT EXISTS boost_3
 WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
 """)
 time.sleep(2)
-
 # Use the keyspace
 session.set_keyspace('boost_3')
 
@@ -24,9 +22,6 @@ name text,
 city text);
 """)
 
-# Set the consistency level to LOCAL_QUORUM
-session.default_consistency_level = ConsistencyLevel.LOCAL_QUORUM
-
 # Generate 200,000 rows of data
 for i in range(1, 1000):
     name = 'Name {}'.format(i)
@@ -36,3 +31,4 @@ for i in range(1, 1000):
 # Close the connection
 session.shutdown()
 cluster.shutdown()
+
