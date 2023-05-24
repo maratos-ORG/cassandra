@@ -50,7 +50,10 @@ jobs:
         echo Failed waiting for Cassandra && exit 1
 
     - name: Wait for 30 seconds
-      run: sleep 50
+      run: sleep 30
+
+    - name: Docker info
+      run: docker exec -it cassandra1 nodetool status
         
     - name: Run Python script
       run: pipenv run python scripts/generate_data.py
