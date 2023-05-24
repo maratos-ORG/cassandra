@@ -10,7 +10,7 @@ services:
       - ~/cassandra/docker/data/cassandra1:/var/lib/cassandra
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
-      - CASSANDRA_LISTEN_ADDRESS=172.28.0.2
+      - CASSANDRA_LISTEN_ADDRESS=127.0.0.1
       - CASSANDRA_BROADCAST_ADDRESS=172.28.0.2      
     networks:
       test:
