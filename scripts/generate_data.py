@@ -14,9 +14,10 @@ WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3}
 """
 
 create_table_query = """
-CREATE TABLE IF NOT EXISTS boost_3.mytable (
+CREATE TABLE IF NOT EXISTS boost_3.tb1 (
   id int PRIMARY KEY,
-  name text
+  name text,
+  city text
 )
 """
 
@@ -31,9 +32,8 @@ session.set_keyspace('boost_3')
 statement = SimpleStatement(create_table_query, consistency_level=ConsistencyLevel.LOCAL_QUORUM)
 session.execute(statement)
 
-time.sleep(2)
 # Generate 200,000 rows of data
-for i in range(1, 5000):
+for i in range(1, 10000):
     name = 'Name {}'.format(i)
     city = ['New York', 'London', 'Paris', 'Sydney', 'Tokyo'][i % 5]
     session.execute("INSERT INTO tb1 (id, name, city) VALUES (%s, %s, %s)", (i, name, city))
