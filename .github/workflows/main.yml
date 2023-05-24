@@ -10,7 +10,7 @@ on:
 
 jobs:
   prepare:
-    timeout-minutes: 7
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -40,13 +40,6 @@ jobs:
     - name: Start containers
       run: docker-compose -f "docker-compose.yaml" up -d --build && sleep 5
 
-    - name: Wait for 10 seconds
-      run: sleep 10
-
-    
-    - name: Cassandra cluster status info2
-      run: docker exec cassandra1 nodetool status
-
     - name: Wait for Cassandra to become ready
       run: |
         echo "Waiting for Cassandra to become ready..."
@@ -66,13 +59,13 @@ jobs:
         fi
         echo "Cassandra is ready!"
 
-
     - name: Docker info
       run: docker ps
-    # - name: Docker info2
-    #   run: docker logs cassandra1
+
+    - name: Wait for 10 seconds
+      run: sleep 60
     
-    - name: Cassandra cluster status info2
+    - name: Cassandra cluster status info
       run: docker exec cassandra1 nodetool status
         
     - name: Run Python script
