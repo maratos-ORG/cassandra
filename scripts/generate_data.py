@@ -21,7 +21,7 @@ Id int PRIMARY KEY,
 name text,
 city text);
 """)
-
+time.sleep(2)
 # Generate 200,000 rows of data
 for i in range(1, 1000):
     name = 'Name {}'.format(i)
