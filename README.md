@@ -1,8 +1,6 @@
 ###TRAVIC CI STATUS. 
-https://app.travis-ci.com/boosterKRD/cassandra.svg?branch=test. 
-Status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandra.svg?branch=test)](https://app.travis-ci.com/boosterKRD/cassandra)
-URI: #https://api.travis-ci.com/repos/boosterKRD/cassandra/cc.xml?branch=test.  
-text: !https://app.travis-ci.com/boosterKRD/cassandra.svg?branch=test!:https://app.travis-ci.com/boosterKRD/cassandra. 
+
+Travic CI status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandra.svg?branch=test)](https://app.travis-ci.com/boosterKRD/cassandra)
 
 ### Main
 **run cassandra cluster**  
