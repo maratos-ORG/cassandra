@@ -1,8 +1,9 @@
+###TRAVIC CI STATUS
+[![Build Status](https://app.travis-ci.com/boosterKRD/cassandra.svg?branch=test)](https://app.travis-ci.com/boosterKRD/cassandra)
+#https://api.travis-ci.com/repos/boosterKRD/cassandra/cc.xml?branch=test
 ### Main
 **run cassandra cluster**  
 `docker-compose up -d`
-
-[![Build Status](https://app.travis-ci.com/boosterKRD/cassandra.svg?branch=test)](https://app.travis-ci.com/boosterKRD/cassandra)
 
 ### Usful cmd
 
