@@ -1,7 +1,8 @@
 ### Main
 **run cassandra cluster**  
 `docker-compose up -d`
-12
+
+[![Build Status](https://app.travis-ci.com/boosterKRD/cassandra.svg?branch=test)](https://app.travis-ci.com/boosterKRD/cassandra)
 
 ### Usful cmd
 
