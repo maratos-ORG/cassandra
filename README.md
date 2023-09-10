@@ -13,7 +13,7 @@ Travic CI status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandr
 `docker exec -it cassandra1 nodetool status`  
 `docker exec -it cassandra1 nodetool ring boost_1988`
 `docker exec -it cassandra1 nodetool netstats`
-
+  
 `docker exec -it cassandra2 nodetool flush`
 `docker exec -it cassandra1 nodetool compact boost_1 tb1`
 `docker exec -it cassandra1 cqlsh`  
