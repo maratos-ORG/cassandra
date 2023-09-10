@@ -5,25 +5,26 @@ Travic CI status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandr
 ### Main
 **run cassandra cluster**  
 `docker-compose up -d`
-
+`python scripts/generate_data.py`
 ### Usful cmd
 
 `docker-compose stop cassandra2`  
 `docker run -it --network docker_test --rm cassandra cqlsh cassandra` 
-
-
 `docker exec -it cassandra1 nodetool status`  
+`docker exec -it cassandra1 nodetool ring boost_1988`
+`docker exec -it cassandra1 nodetool netstats`
 
-`docker exec -it cassandra1 nodetool flush`
+`docker exec -it cassandra2 nodetool flush`
 `docker exec -it cassandra1 nodetool compact boost_1 tb1`
 `docker exec -it cassandra1 cqlsh`  
 `nodetool --host 172.28.0.2 info`
-`docker exec -it cassandra1 nodetool getendpoints boost_1 tb1 'New York'` 
+`docker exec -it cassandra1 nodetool getendpoints boost_2 tb1 1` 
 
+ select * from dse_perf.user_io;
 
  DATA Distribution
- `docker exec -it cassandra2 nodetool cfstats boost_1.tb1`
- `docker exec -it cassandra1 nodetool tablestats boost_1.tb1`
+ `docker exec -it cassandra2 nodetool cfstats boost_3.tb1`
+ `docker exec -it cassandra1 nodetool tablestats boost_1988.tb1`
  
 LOGS -> https://cassandra.apache.org/doc/latest/cassandra/operating/fqllogging.html
 1. docker exec -it cassandra2 nodetool enablefullquerylog --path /tmp/cassandrafullquerylog

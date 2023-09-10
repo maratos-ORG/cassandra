@@ -8,7 +8,7 @@ services:
       - 9042:9042
     volumes:
       - ./docker/data/cassandra1:/var/lib/cassandra
-      # - ./docker/conf/cassandra1.yaml:/etc/cassandra/cassandra.yaml
+      # - ./docker/conf/cassandra1.yaml:/etc/cassandra/cassandra.yaml    
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_LISTEN_ADDRESS=cassandra1
@@ -20,7 +20,8 @@ services:
       test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE CLUSTER'"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 10        
+
 
   cassandra2:
     container_name: cassandra2
@@ -32,7 +33,7 @@ services:
       - 9043:9042
     volumes:
       - ./docker/data/cassandra2:/var/lib/cassandra
-      # - ./docker/conf/cassandra2.yaml:/etc/cassandra/cassandra.yaml      
+      # - ./docker/conf/cassandra2.yaml:/etc/cassandra/cassandra.yaml           
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_SEEDS=cassandra1
@@ -45,24 +46,25 @@ services:
       test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE CLUSTER'"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 10        
 
   cassandra3:
     container_name: cassandra3
     image: cassandra   
     depends_on:
       - cassandra2    
-    command: /bin/bash -c "sleep 150; /usr/local/bin/docker-entrypoint.sh cassandra -f"      
+    command: /bin/bash -c "sleep 90; /usr/local/bin/docker-entrypoint.sh cassandra -f"      
     ports:
       - 9044:9042
     volumes:
       - ./docker/data/cassandra3:/var/lib/cassandra
-      # - ./docker/conf/cassandra3.yaml:/etc/cassandra/cassandra.yaml      
+      # - ./docker/conf/cassandra3.yaml:/etc/cassandra/cassandra.yaml           
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_SEEDS=cassandra1
       - CASSANDRA_LISTEN_ADDRESS=cassandra3
       - CASSANDRA_BROADCAST_ADDRESS=cassandra3
+      # - CASSANDRA_AUTO_BOOTSTRAP=true 
     networks:
       test:
         ipv4_address: 172.28.250.4
@@ -70,7 +72,27 @@ services:
       test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE CLUSTER'"]
       interval: 30s
       timeout: 10s
-      retries: 3        
+      retries: 10           
+
+  # cassandra4:
+  #   container_name: cassandra4
+  #   image: cassandra   
+  #   depends_on:
+  #     - cassandra1
+  #   command: /bin/bash -c "sleep 120; /usr/local/bin/docker-entrypoint.sh cassandra -f"      
+  #   ports:
+  #     - 9045:9042
+  #   volumes:
+  #     - ./docker/data/cassandra4:/var/lib/cassandra          
+  #   environment:
+  #     - CASSANDRA_CLUSTER_NAME=maratos
+  #     - CASSANDRA_SEEDS=cassandra1
+  #     - CASSANDRA_LISTEN_ADDRESS=cassandra4
+  #     - CASSANDRA_BROADCAST_ADDRESS=cassandra4
+  #     - CASSANDRA_AUTO_BOOTSTRAP=true 
+  #   networks:
+  #     test:
+  #       ipv4_address: 172.28.250.6   
 
 networks:
     test:
