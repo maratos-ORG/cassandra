@@ -52,7 +52,7 @@ services:
     container_name: cassandra3
     image: cassandra   
     depends_on:
-      - cassandra2    
+      - cassandra1  
     command: /bin/bash -c "sleep 60; /usr/local/bin/docker-entrypoint.sh cassandra -f"      
     ports:
       - 9044:9042
