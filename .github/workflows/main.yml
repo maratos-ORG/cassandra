@@ -38,10 +38,10 @@ jobs:
       run: pipenv install --dev
 
     - name: Start containers
-      run: docker-compose -f "docker-compose.yaml" up -d --build && sleep 5
+      run: docker-compose -f "docker-compose.yaml" up -d --build && sleep 120
 
     - name: Docker info
-      run: docker ps      
+      run: docker logs cassandra3      
       
     - name: Wait for Cassandra to become ready
       run: |
