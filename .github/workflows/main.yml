@@ -43,24 +43,6 @@ jobs:
     # - name: Docker info
     #   run: docker logs cassandra3      
 
-    - name: Docker list 
-      run: |
-        echo "Docker status"
-        MAX_ATTEMPTS=10
-        COMMAND='docker ps'
-        COUNT=0
-        until  $COUNT -eq $MAX_ATTEMPTS 
-        do          
-          echo OUTPUT=$($COMMAND)   
-          sleep 10
-          COUNT=$((COUNT+1))
-          echo "Attempt: $COUNT/$MAX_ATTEMPTS"
-        done
-        if [ $COUNT -eq $MAX_ATTEMPTS ]; then
-          echo "STOP LOOP"
-          exit 1
-        fi
-
     - name: Wait for Cassandra to become ready
       run: |
         echo "Waiting for Cassandra to become ready..."
