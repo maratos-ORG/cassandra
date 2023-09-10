@@ -47,7 +47,7 @@ jobs:
       run: |
         echo "Waiting for Cassandra to become ready..."
         MAX_ATTEMPTS=10
-        COMMAND='docker exec cassandra3 cqlsh --debug cassandra3 9044 --execute="DESCRIBE SCHEMA;"'
+        COMMAND='docker exec cassandra3 cqlsh --debug cassandra3 9042 --execute="DESCRIBE SCHEMA;"'
         COUNT=0
         until OUTPUT=$($COMMAND 2>&1) || [ $COUNT -eq $MAX_ATTEMPTS ]
         do
