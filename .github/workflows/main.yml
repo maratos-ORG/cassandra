@@ -40,6 +40,9 @@ jobs:
     - name: Start containers
       run: docker-compose -f "docker-compose.yaml" up -d --build && sleep 5
 
+    - name: Docker info
+      run: docker ps      
+      
     - name: Wait for Cassandra to become ready
       run: |
         echo "Waiting for Cassandra to become ready..."
