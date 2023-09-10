@@ -42,7 +42,10 @@ jobs:
 
     - name: Docker info
       run: docker logs cassandra3      
-      
+
+    - name: Docker list 
+      run: docker logs ps
+
     - name: Wait for Cassandra to become ready
       run: |
         echo "Waiting for Cassandra to become ready..."
