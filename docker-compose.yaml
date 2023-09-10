@@ -6,6 +6,7 @@ services:
     image: cassandra  
     ports:
       - 9042:9042
+      - 7199:7199
     volumes:
       - ./docker/data/cassandra1:/var/lib/cassandra
       # - ./docker/conf/cassandra1.yaml:/etc/cassandra/cassandra.yaml    
@@ -38,7 +39,6 @@ services:
   #     - CASSANDRA_CLUSTER_NAME=maratos
   #     - CASSANDRA_SEEDS=cassandra1
   #     - CASSANDRA_LISTEN_ADDRESS=cassandra2
-  #     - CASSANDRA_BROADCAST_ADDRESS=cassandra2     
   #   networks:
   #     test:
   #       ipv4_address: 172.28.250.3
