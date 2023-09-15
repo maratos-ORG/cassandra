@@ -58,7 +58,7 @@ services:
       - 9044:9042
     volumes:
       - ./docker/data/cassandra3:/var/lib/cassandra
-      # - ./docker/conf/cassandra3.yaml:/etc/cassandra/cassandra.yaml           
+      # - ./docker/conf/cassandra3.yaml:/etc/cassandra/cassandra.yaml            
     environment:
       - CASSANDRA_CLUSTER_NAME=maratos
       - CASSANDRA_SEEDS=cassandra1
