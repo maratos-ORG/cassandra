@@ -15,6 +15,7 @@ Travic CI status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandr
 `docker exec -it cassandra1 nodetool netstats`
   
 `docker exec -it cassandra2 nodetool flush`
+`docker exec -it cassandra3 nodetool repair`
 `docker exec -it cassandra1 nodetool compact boost_1 tb1`
 `docker exec -it cassandra1 cqlsh`  
 `nodetool --host 172.28.0.2 info`
@@ -24,7 +25,7 @@ Travic CI status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandr
 
  DATA Distribution
  `docker exec -it cassandra2 nodetool cfstats boost_3.tb1`
- `docker exec -it cassandra1 nodetool tablestats boost_2.tb1`
+ `docker exec -it cassandra1 nodetool tablestats pgs_receipt.bills_10000`
  
 LOGS -> https://cassandra.apache.org/doc/latest/cassandra/operating/fqllogging.html
 1. docker exec -it cassandra2 nodetool enablefullquerylog --path /tmp/cassandrafullquerylog
@@ -70,7 +71,14 @@ docker exec -it cassandra1 nodetool tpstats | grep -E "Hint|HINT"
 
 SQL usful
 SELECT * FROM system_schema.keyspaces;
-SELECT * FROM system_schema.tables WHERE keyspace_name = 'boost_2';
+SELECT * FROM system_schema.tables WHERE keyspace_name = 'bills';
 SELECT * FROM system_schema.columns WHERE keyspace_name = 'boost_2' AND table_name = 'tb1';
 
 nodetool tablestats boost_2.tb1
+
+
+
+SELECT * FROM bills where user_id='user_4500' and account_id='account_user_4500' and year=2023 and 
+month=9;
+
+# SELECT * FROM bills  WHERE user_id=4e48c1e9-e18e-4a49-b7c6-66e3769b219e  AND account_id='account_4e48c1e9-e18e-4a49-b7c6-66e3769b219e'  AND year=2022 AND month=10 and week_of_year>43  ORDER BY week_of_year ASC;
