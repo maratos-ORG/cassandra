@@ -17,5 +17,31 @@ Test perfomance
 to-do
 
 
-https://medium.com/ksquare-inc/how-to-use-apache-cassandras-stress-tool-a-step-by-step-guide-649ea26daa5d
+https://docs.datastax.com/en/dse/5.1/docs/tooling/cassandra-stress-tool.html
+https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/tools/toolsCStressOutput.html
 docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress  write n=100000 -schema "replication(strategy=NetworkTopologyStrategy,datacenter1=3)"
+
+# Insert (write) one million rows
+$ docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress write n=1000000 -rate threads=5
+# Read two hundred thousand rows.
+$ docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress read n=200000 -rate threads=5
+
+# Read rows for a duration of 3 minutes.
+$ docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress read duration=3m -rate threads=5
+
+# Read 200,000 rows without a warmup of 50,000 rows first.
+$ docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress read n=200000 no-warmup -rate threads=5
+
+docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress user profile=opt/cassandra/tools/cqlstress-example.yaml n=1000000 'ops(insert=3,simple1=1)' no-warmup cl=QUORUM
+
+ docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress user profile=/var/lib/cassandra/mytest.yaml n=1000000 'ops(insert=3,user_bills_by_week=1)' no-warmup cl=QUORUM
+
+
+docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress user profile=/var/lib/cassandra/myrest_s.yaml n=10000  ops\(user_bills_last_14_days=1,user_bills_last_month=1\) no-warmup  -rate threads=5
+
+docker exec -it cassandra1 /opt/cassandra/tools/bin/cassandra-stress user profile=/var/lib/cassandra/updated_yaml_file.yaml n=1000000 -rate threads=50
+
+
+
+
+-schema "replication(strategy=NetworkTopologyStrategy,datacenter1=3)"
