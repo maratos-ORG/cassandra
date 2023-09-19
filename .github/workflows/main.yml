@@ -1,9 +1,6 @@
 name: Test
 
 on:
-  push:
-    branches:
-    - test
   pull_request:
     branches:
     - main
@@ -38,10 +35,7 @@ jobs:
       run: pipenv install --dev
 
     - name: Start containers
-      run: docker-compose -f "docker-compose.yaml" up -d --build && sleep 5
-
-    # - name: Docker info
-    #   run: docker logs cassandra3      
+      run: docker-compose -f "docker-compose-workflow.yaml" up -d --build && sleep 5
 
     - name: Wait for Cassandra to become ready
       run: |
@@ -73,4 +67,4 @@ jobs:
 
     - name: Stop containers
       if: always()
-      run: docker-compose -f "docker-compose.yaml" down
+      run: docker-compose -f "docker-compose-workflow.yaml" down
