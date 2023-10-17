@@ -8,7 +8,7 @@ from cassandra.util import min_uuid_from_time
 # Подключение к Cassandra
 cluster = Cluster(['localhost'], port=9042)
 session = cluster.connect()
-session.set_keyspace('pgs_receipt')
+session.set_keyspace('pgs_receipt_v2')
 
 # Подготовка запроса
 insert_query = session.prepare("""
@@ -18,7 +18,7 @@ insert_query = session.prepare("""
 
 # Генерация данных
 start_date = datetime(2023, 9, 11) - timedelta(days=90)
-unique_users = [f"user_{i}" for i in range(14501, 20001)]
+unique_users = [f"user_{i}" for i in range(0, 100)]
 
 max_ops_for_users = {}
 min_ops_for_users = {}

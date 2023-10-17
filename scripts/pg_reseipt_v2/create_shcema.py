@@ -8,10 +8,10 @@ session = cluster.connect()
 
 # Создание ключевого пространства
 session.execute("""
-CREATE KEYSPACE IF NOT EXISTS pgs_receipt 
+CREATE KEYSPACE IF NOT EXISTS pgs_receipt_v2 
 WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};
 """)
-session.set_keyspace('pgs_receipt')
+session.set_keyspace('pgs_receipt_v2')
 
 # Создание таблицы
 # Создание таблицы с новыми колонками и изменённым ключом

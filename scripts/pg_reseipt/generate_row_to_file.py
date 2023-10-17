@@ -75,4 +75,4 @@ with open(OUTPUT_FILE, 'w', newline='') as csvfile:
 
 print(f"Data generation complete. File saved as {OUTPUT_FILE}")
 print(f"Run the following command in cqlsh to import the data:")
-print(f"COPY pgs_receipt.bills_10000 (user_id, account_id, year, month, week_of_year, operation_id, type, amount, description, full_timestamp) FROM '{OUTPUT_FILE}' WITH DELIMITER=',' AND HEADER=TRUE;")
+print(f"COPY pgs_receipt_v1.bills_10000 (user_id, account_id, year, month, week_of_year, operation_id, type, amount, description, full_timestamp) FROM '{OUTPUT_FILE}' WITH DELIMITER=',' AND HEADER=TRUE;")

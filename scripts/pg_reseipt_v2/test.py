@@ -7,7 +7,7 @@ import random
 # Connect to Cassandra
 cluster = Cluster(['localhost'], port=9042)
 session = cluster.connect()
-session.set_keyspace('pgs_receipt')
+session.set_keyspace('pgs_receipt_v2')
 
 # Read special_users from the file
 with open("2_per_users.txt", "r") as file:

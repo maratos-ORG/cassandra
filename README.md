@@ -5,7 +5,14 @@ Travic CI status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandr
 ### Main
 **run cassandra cluster**  
 `docker-compose up -d`
-`python scripts/generate_data.py`
+<!-- `python scripts/generate_data.py` -->
+`python scripts/pg_reseipt/create_shcema.py`
+`python scripts/pg_reseipt_v2/create_shcema.py`
+`python scripts/pg_reseipt/generate_rows.py`
+`python scripts/pg_reseipt_v2/generate_rows.py`
+`python scripts/pg_reseipt/test.py`
+`python scripts/pg_reseipt_v2/test.py`
+
 ### Usful cmd
 
 `docker-compose stop cassandra2`  

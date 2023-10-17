@@ -7,7 +7,7 @@ from cassandra.query import BatchStatement
 # Подключение к Cassandra
 cluster = Cluster(['localhost'], port=9042)
 session = cluster.connect()
-session.set_keyspace('pgs_receipt')
+session.set_keyspace('pgs_receipt_v1')
 
 # Подготовка запроса
 insert_query = session.prepare("""
@@ -18,7 +18,7 @@ insert_query = session.prepare("""
 # Генерация данных
 start_date = datetime(2023, 9, 11) - timedelta(days=90)  # начало 3 месяца назад
 # unique_users = [f"user_{i}" for i in range(10000)]
-unique_users = [f"user_{i}" for i in range(14501, 20001)]
+unique_users = [f"user_{i}" for i in range(0, 100)]
 
 # Установка максимального и минимального количества операций для каждого пользователя
 max_ops_for_users = {}

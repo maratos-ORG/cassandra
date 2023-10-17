@@ -2,7 +2,7 @@ from cassandra.cluster import Cluster
 
 # Connect to Cassandra
 cluster = Cluster(['localhost'], port=9042)
-session = cluster.connect('pgs_receipt')
+session = cluster.connect('pgs_receipt_v1')
 
 # Define 
 year = 2023
