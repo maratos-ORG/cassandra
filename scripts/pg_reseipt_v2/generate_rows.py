@@ -1,6 +1,7 @@
 from cassandra.cluster import Cluster
 from datetime import datetime, timedelta
 import random
+import pytz  # New import for timezone conversion
 from cassandra import ConsistencyLevel
 from cassandra.query import BatchStatement
 from cassandra.util import min_uuid_from_time
@@ -13,12 +14,15 @@ session.set_keyspace('pgs_receipt_v2')
 # Подготовка запроса
 insert_query = session.prepare("""
     INSERT INTO bills_10000 (user_id, account_id, year, month, dt_uuid, week_of_year, operation_id, type, amount, description, full_timestamp, data_create)
-    VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """)
 
 # Генерация данных
 start_date = datetime(2023, 9, 11) - timedelta(days=90)
 unique_users = [f"user_{i}" for i in range(0, 100)]
+
+# For timezone conversion
+local_tz = pytz.timezone('UTC')  # Replace 'UTC' with your local timezone if different
 
 max_ops_for_users = {}
 min_ops_for_users = {}
@@ -43,6 +47,9 @@ for index, user_id in enumerate(unique_users, 1):
     while current_date <= datetime(2023, 9, 11):
         batch = BatchStatement(consistency_level=ConsistencyLevel.ONE)
 
+        current_date_local = local_tz.localize(current_date)
+        current_date_utc = current_date_local.astimezone(pytz.UTC)
+
         if user_id in special_users:
             no_operation_probability = 0.15
         else:
@@ -60,7 +67,7 @@ for index, user_id in enumerate(unique_users, 1):
             description = "Sample transaction"
             full_timestamp = current_date
             data_create = datetime.now()
-            dt_uuid = min_uuid_from_time(current_date.timestamp())
+            dt_uuid = min_uuid_from_time(current_date_utc.timestamp())
             batch.add(insert_query, [user_id, account_id, current_date.year, current_date.month, dt_uuid, int(current_date.strftime("%U")), operation_id_counter, type_value, amount, description, full_timestamp, data_create])
 
         if len(batch):

@@ -13,6 +13,7 @@ Travic CI status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandr
 `python scripts/pg_reseipt/test.py`
 `python scripts/pg_reseipt_v2/test.py`
 
+select user_id,  year, month, toDate(dt_uuid), dt_uuid, data_create from bills_10000 where user_id='user_55' and account_id='account_user_55' and year=2023 and month=9 and dt_uuid >  maxTimeuuid('2023-09-01 00:00:00+0000') and dt_uuid <  maxTimeuuid('2023-09-04 00:00:00+0000');
 ### Usful cmd
 
 `docker-compose stop cassandra2`  
@@ -53,6 +54,7 @@ docker exec -it cassandra2 nodetool enableauditlog
 docker exec -it cassandra2 cqlsh -- make some queries
 docker exec -it cassandra2 nodetool disableauditlog
 docker exec -it cassandra2 auditlogviewer /cassandra/audit/logs/hourly
+
 
 
 

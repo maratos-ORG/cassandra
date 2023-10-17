@@ -32,7 +32,7 @@ print("2% пользователей с минимальным значение�
 for user in special_users:
     print(user)
     max_ops_for_users[user] = 100
-    min_ops_for_users[user] = 10
+    min_ops_for_users[user] = 30
 
 # Устанавливаем значения для остальных пользователей
 for user_id in unique_users:
