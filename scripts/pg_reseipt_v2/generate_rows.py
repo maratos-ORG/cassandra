@@ -1,40 +1,39 @@
 from cassandra.cluster import Cluster
 from datetime import datetime, timedelta
 import random
+import pytz  # New import for timezone conversion
 from cassandra import ConsistencyLevel
 from cassandra.query import BatchStatement
+from cassandra.util import min_uuid_from_time
 
 # Подключение к Cassandra
 cluster = Cluster(['localhost'], port=9042)
 session = cluster.connect()
-session.set_keyspace('pgs_receipt_v1')
+session.set_keyspace('pgs_receipt_v2')
 
 # Подготовка запроса
 insert_query = session.prepare("""
-    INSERT INTO bills_10000 (user_id, account_id, year, month, week_of_year, operation_id, type, amount, description, full_timestamp)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO bills_10000 (user_id, account_id, year, month, dt_uuid, week_of_year, operation_id, type, amount, description, full_timestamp, data_create)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """)
 
 # Генерация данных
-start_date = datetime(2023, 9, 11) - timedelta(days=90)  # начало 3 месяца назад
-# unique_users = [f"user_{i}" for i in range(10000)]
+start_date = datetime(2023, 9, 11) - timedelta(days=90)
 unique_users = [f"user_{i}" for i in range(0, 100)]
 
-# Установка максимального и минимального количества операций для каждого пользователя
+# For timezone conversion
+local_tz = pytz.timezone('UTC')  # Replace 'UTC' with your local timezone if different
+
 max_ops_for_users = {}
 min_ops_for_users = {}
 
-# Выбираем 2% пользователей
 special_users = random.sample(unique_users, int(0.02 * len(unique_users)))
-
-# Выводим имена этих 2% пользователей
 print("2% пользователей с минимальным значением 10 и максимальным 100:")
 for user in special_users:
     print(user)
     max_ops_for_users[user] = 100
-    min_ops_for_users[user] = 30
+    min_ops_for_users[user] = 10
 
-# Устанавливаем значения для остальных пользователей
 for user_id in unique_users:
     if user_id not in max_ops_for_users:
         max_ops_for_users[user_id] = 15
@@ -48,12 +47,15 @@ for index, user_id in enumerate(unique_users, 1):
     while current_date <= datetime(2023, 9, 11):
         batch = BatchStatement(consistency_level=ConsistencyLevel.ONE)
 
+        current_date_local = local_tz.localize(current_date)
+        current_date_utc = current_date_local.astimezone(pytz.UTC)
+
         if user_id in special_users:
             no_operation_probability = 0.15
         else:
             no_operation_probability = 0.35
 
-        if random.random() < no_operation_probability:  # probability for no operations
+        if random.random() < no_operation_probability:
             operations_today = 0
         else:
             operations_today = random.randint(min_ops_for_users[user_id], max_ops_for_users[user_id])
@@ -64,14 +66,14 @@ for index, user_id in enumerate(unique_users, 1):
             amount = round(random.uniform(1.0, 1000.0), 2)
             description = "Sample transaction"
             full_timestamp = current_date
-            batch.add(insert_query, [user_id, account_id, current_date.year, current_date.month, int(current_date.strftime("%U")), operation_id_counter, type_value, amount, description, full_timestamp])
-        
-        # execute the batch
-        if len(batch):  # Check if there's anything to execute
+            data_create = datetime.now()
+            dt_uuid = min_uuid_from_time(current_date_utc.timestamp())
+            batch.add(insert_query, [user_id, account_id, current_date.year, current_date.month, dt_uuid, int(current_date.strftime("%U")), operation_id_counter, type_value, amount, description, full_timestamp, data_create])
+
+        if len(batch):
             session.execute(batch)
         current_date += timedelta(days=1)
 
-    # Вывод прогресса каждые 500 пользователей
     if index % 500 == 0:
         print(f"Обработано {index} пользователей")
 

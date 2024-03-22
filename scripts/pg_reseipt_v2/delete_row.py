@@ -2,7 +2,7 @@ from cassandra.cluster import Cluster
 
 # Connect to Cassandra
 cluster = Cluster(['localhost'], port=9042)
-session = cluster.connect('pgs_receipt_v1')
+session = cluster.connect('pgs_receipt_v2')
 
 # Define 
 year = 2023
@@ -12,7 +12,7 @@ month = 9
 for user_id in ["user" + str(i) for i in range(14501, 16000)]:
     # Fetch rows for the current user_id
     select_query = """
-    SELECT user_id, account_id, year, month, week_of_year, operation_id 
+    SELECT user_id, account_id, year, month, dt_uuid, week_of_year, operation_id 
     FROM bills_10000 
     WHERE user_id = %s AND account_id = %s AND year = %s AND month = %s
     """
@@ -22,9 +22,9 @@ for user_id in ["user" + str(i) for i in range(14501, 16000)]:
     for row in rows:
         delete_query = """
             DELETE FROM bills_10000 
-            WHERE user_id = %s AND account_id = %s AND year = %s AND month = %s AND week_of_year = %s AND operation_id = %s
+            WHERE user_id = %s AND account_id = %s AND year = %s AND month = %s AND dt_uuid = %s
         """
-        session.execute(delete_query, (row.user_id, row.account_id, row.year, row.month, row.week_of_year, row.operation_id))
+        session.execute(delete_query, (row.user_id, row.account_id, row.year, row.month, row.dt_uuid))
 
 # Close the connection
 cluster.shutdown()

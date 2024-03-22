@@ -9,6 +9,7 @@ boto3 = "*"
 jinja2 = "*"
 #cassandra = "*"
 cassandra-driver = "*"
+pytz = "*"
 
 [requires]
 python_version = "3.11"
