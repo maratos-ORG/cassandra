@@ -1,0 +1,6 @@
+site_name: booster_cassandra
+nav:
+    - Overview: README.md
+    - Monitoring: MONITORING.md
+    - Testing Tools: TESTING.md
+theme: readthedocs
