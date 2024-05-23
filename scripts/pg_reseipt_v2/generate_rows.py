@@ -19,7 +19,7 @@ insert_query = session.prepare("""
 
 # Генерация данных
 start_date = datetime(2023, 9, 11) - timedelta(days=90)
-unique_users = [f"user_{i}" for i in range(0, 100)]
+unique_users = [f"user_{i}" for i in range(0, 10000)]
 
 # For timezone conversion
 local_tz = pytz.timezone('UTC')  # Replace 'UTC' with your local timezone if different

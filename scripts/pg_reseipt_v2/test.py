@@ -25,19 +25,30 @@ def measure_time(users, start_date, end_date):
     
     durations = []
     for user in users:
-        start_time = time.time()
-        session.execute(query, [user, f"account_{user}", start_date.year, start_date.month, start_date, end_date])
-        durations.append(time.time() - start_time)
+        current_start_date = start_date
+        while current_start_date < end_date:
+            current_end_date = (current_start_date + timedelta(days=32)).replace(day=1) - timedelta(seconds=1)
+            if current_end_date > end_date:
+                current_end_date = end_date
+            
+            # print(f"Querying for user: {user}, account: account_{user}, year: {current_start_date.year}, month: {current_start_date.month}, start_date: {current_start_date}, end_date: {current_end_date}")
+            
+            start_time = time.time()
+            session.execute(query, [user, f"account_{user}", current_start_date.year, current_start_date.month, current_start_date, current_end_date])
+            durations.append(time.time() - start_time)
+            
+            current_start_date = (current_start_date + timedelta(days=32)).replace(day=1)
 
-    return min(durations), statistics.mean(durations), max(durations)
+    return min(durations), statistics.mean(durations), max(durations), sum(durations)
 
 # Measurements for each group
 end_date = datetime(2023, 9, 11)
 for group, users in [("обычные пользователи", sample_users), ("специальные пользователи", special_users)]:
     for period, days in [("14 дней", 14), ("1 месяц", 30), ("2 месяца", 60)]:
         start_date = end_date - timedelta(days=days)
-        min_time, avg_time, max_time = measure_time(users, start_date, end_date)
-        print(f"{group}, {period}: мин - {min_time:.2f} сек, среднее - {avg_time:.2f} сек, макс - {max_time:.2f} сек")
+        print(f"\nGroup: {group}, Period: {period}, Days: {days}, Start date: {start_date}, End date: {end_date}")
+        min_time, avg_time, max_time, total_time = measure_time(users, start_date, end_date)
+        print(f"{group}, {period}: мин - {min_time:.2f} сек, среднее - {avg_time:.2f} сек, макс - {max_time:.2f} сек, всего - {total_time:.2f} сек")
 
 # Close the connection
 cluster.shutdown()
