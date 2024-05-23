@@ -5,12 +5,14 @@ Travic CI status: [![Build Status](https://app.travis-ci.com/boosterKRD/cassandr
 ### Main
 **run cassandra cluster**  
 `docker-compose up -d`
+`pipenv install`
+`pipenv shell`
 <!-- `python scripts/generate_data.py` -->
-`python scripts/pg_reseipt/create_shcema.py`
+<!-- `python scripts/pg_reseipt/create_shcema.py` -->
 `python scripts/pg_reseipt_v2/create_shcema.py`
-`python scripts/pg_reseipt/generate_rows.py`
+<!-- `python scripts/pg_reseipt/generate_rows.py` -->
 `python scripts/pg_reseipt_v2/generate_rows.py`
-`python scripts/pg_reseipt/test.py`
+<!-- `python scripts/pg_reseipt/test.py` -->
 `python scripts/pg_reseipt_v2/test.py`
 
 select user_id,  year, month, toDate(dt_uuid), dt_uuid, data_create from bills_10000 where user_id='user_55' and account_id='account_user_55' and year=2023 and month=9 and dt_uuid >  maxTimeuuid('2023-09-01 00:00:00+0000') and dt_uuid <  maxTimeuuid('2023-09-04 00:00:00+0000');

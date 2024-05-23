@@ -1,4 +1,3 @@
-# PostgreSQL 11 cluster
 init:
 	docker-compose -f docker-compose.yaml up -d
 
