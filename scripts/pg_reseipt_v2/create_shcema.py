@@ -30,8 +30,7 @@ session.execute("""
             full_timestamp TIMESTAMP,
             data_create TIMESTAMP,
             PRIMARY KEY ((user_id, account_id, year, month), dt_uuid)
-        ) WITH CLUSTERING ORDER BY (dt_uuid DESC
-)
+        ) WITH CLUSTERING ORDER BY (dt_uuid DESC)
     """)
 
 # Закрытие соединения
