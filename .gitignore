@@ -1,2 +1,5 @@
 docker/data/cassandra*/*
 jmxterm
+.vscode/
+# MkDocs build output
+site/
